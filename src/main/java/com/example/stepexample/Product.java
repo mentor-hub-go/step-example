@@ -1,29 +1,20 @@
-package com.example.kiosk.domain.product;
+package com.example.stepexample;
 
-import com.example.kiosk.domain.BaseEntity;
-import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "product")
-@Entity
-public class Product extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Product{
     private Long id;
 
     private String productNumber;
 
-    @Enumerated(EnumType.STRING)
-    private ProductType type;
+    private String type;
 
-    @Enumerated(EnumType.STRING)
-    private ProductSellingStatus sellingStatus;
+    private String sellingStatus;
 
     private String name;
 
     private int price;
+
+    private LocalDateTime createdDateTime;
+    private LocalDateTime modifiedDateTime;
 }

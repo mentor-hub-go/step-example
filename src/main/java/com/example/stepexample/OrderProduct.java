@@ -1,26 +1,17 @@
-package com.example.kiosk.domain.order;
+package com.example.stepexample;
 
-import com.example.kiosk.domain.BaseEntity;
-import com.example.kiosk.domain.product.Product;
-import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity
-public class OrderProduct extends BaseEntity {
+public class OrderProduct {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     private Order order;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
+
+    private LocalDateTime createdDateTime;
+    private LocalDateTime modifiedDateTime;
 
     public OrderProduct(Order order, Product product) {
         this.order = order;
