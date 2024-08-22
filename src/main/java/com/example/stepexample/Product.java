@@ -1,15 +1,28 @@
 package com.example.stepexample;
 
-import java.time.LocalDateTime;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
+import javax.annotation.processing.Generated;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Entity
 public class Product{
+    @Id
+    @GeneratedValue
     private Long id;
+
+    @OneToMany(mappedBy = "product")
+    private List<OrderProduct> orderProductList;
 
     private String productNumber;
 
-    private String type;
+    private Type type;
 
-    private String sellingStatus;
+    private SellingStatus sellingStatus;
 
     private String name;
 
