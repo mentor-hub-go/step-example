@@ -1,0 +1,72 @@
+
+
+질문1.부모 엔티티에서 상속받은 @PrePersist에서 추가 설정하고 싶으면 자식 엔티티에서는 어떻게 해야될까요?
+
+부모엔티티 만들 때 처음 만들 때는 아래에 있는 "2번 예시"처럼 만들었습니다.
+
+Order,OrderProduct,Product) 엔티티를 만들때 BaseEntity를 상속받았고,
+BaseEntity에는 @PrePersist, @PreUpdate를 사용해서 값을 자동으로 수정하게 했습니다.
+
+하지만, Order 엔티티에는
+==>  private LocalDateTime registeredDateTime;
+     private LocalDateTime createdDateTime;
+     private LocalDateTime modifiedDateTime;
+
+다른 엔티티와 다르게 registeredDateTime이 추가적으로 있었고, 이 필드값도 자동으로
+값이 들어가게 설정하고 싶었습니다.
+
+그래서 BaseEntity의 메소드를 오버라이드해서 하면 될거 같아서
+
+    @PrePersist
+    @Override
+    protected void onCreate() {
+        super.onCreate(); // 부모 클래스의 @PrePersist 호출
+        if (registeredDateTime == null) {
+            registeredDateTime = LocalDateTime.now();
+        }
+    }
+이렇게 한 다음 추가로 registeredDateTime을 추가했습니다. 하지만
+PrePersist' entity listener method is already defined in class 'Order' or in one of its superclasses
+위와 같은 오류가 뜹니다. 부모의 PrePersist에서 상속받은 값을 자식에서 추가로 설정하는 방법을 찾지 못해서 1번 예시처럼 작성했습니다.
+
+방법이 없을까요??
+
+
+
+===========================1번 예시======================================
+
+@MappedSuperclass
+public abstract class BaseEntity {
+    @CreatedDate
+    private LocalDateTime createdDateTime ;
+
+    @LastModifiedDate
+    private LocalDateTime modifiedDateTime ;
+}
+==================================================================
+
+
+
+============================2번 예시======================================
+
+@MappedSuperclass
+public abstract class BaseEntity {
+
+    private LocalDateTime createdDateTime ;
+    private LocalDateTime modifiedDateTime ;
+
+        @PrePersist
+    protected void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
+        this.createdDateTime = now ;
+        this.modifiedDateTime = now ;
+    }
+
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.modifiedDateTime = LocalDateTime.now();
+}
+
+}
+==================================================================
